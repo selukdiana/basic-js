@@ -20,12 +20,47 @@ import { NotImplementedError } from '../extensions/index.js';
  * 
  */
 export default class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor(param){
+    this.bool = param;
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  encrypt(message, key) {
+    if(message.length < 1 || key.length <1) return "Incorrect arguments!"
+    const en = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    message = message.toUpperCase();
+    key = key.toUpperCase();
+    let count = 0;
+    let result = "";
+    for (let index = 0; index < message.length; index++) {
+      if(en.indexOf(message.charAt(index))!== -1){
+        if(count == key.length) count =0
+        let num = 
+        (en.indexOf(message.charAt(index)) + en.indexOf(key.charAt(count)))%26;
+        result+= en.charAt(num);
+        count++;
+        }
+      else result+=message.charAt(index);
+    }
+    if (this.bool == 'false') result = result.split('').reverse().join('');
+    return result;
+  }
+  decrypt(message, key) {
+    if(message.length < 1 || key.length <1) return "Incorrect arguments!"
+    const en = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    message = message.toUpperCase();
+    key = key.toUpperCase();
+    let count = 0;
+    let result = "";
+    for (let index = 0; index < message.length; index++) {
+      if(en.indexOf(message.charAt(index))!== -1){
+        if(count == key.length) count =0
+        let num = 
+        (en.indexOf(message.charAt(index)) + 26 - en.indexOf(key.charAt(count)))%26;
+        result+= en.charAt(num);
+        count++;
+        }
+      else result+=message.charAt(index)
+    }
+    if (this.bool == 'false') result = result.split('').reverse().join('');
+    return result;
   }
 }
